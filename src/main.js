@@ -1,13 +1,22 @@
-const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron')
+const { app, BrowserWindow, ipcMain, globalShortcut ,Tray,Menu} = require('electron')
 
+const path=require('path')
 
 let win
 
+let srcPath=path.join(__dirname,"../src")
 
 function createTray () {
-
-    tray = new Tray(`${__dirname}/src/`) // 指定图片的路径
-    // ... 其他代码
+    tray = new Tray(`${srcPath}/images/font.png`) // 指定图片的路径
+    const contextMenu = Menu.buildFromTemplate([
+        { label: 'clip', type: 'checkbox',click(){
+            globalShortcut.register('CmdOrCtrl+Shift+A', captureScreen)
+        } },
+        { label: 'about', type: 'checkbox' },
+        { label: 'exit'}
+    ])
+    tray.setToolTip('图图识字')
+    tray.setContextMenu(contextMenu)
 }
 
 
@@ -43,9 +52,7 @@ function createWindow() {
 // Electron 会在初始化后并准备
 // 创建浏览器窗口时，调用这个函数。
 // 部分 API 在 ready 事件触发后才能使用。
-app.on('ready', createWindow)
-
-
+app.on('ready', createTray)
 
 
 // 当全部窗口关闭时退出。
