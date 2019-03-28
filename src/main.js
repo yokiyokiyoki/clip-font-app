@@ -6,13 +6,13 @@ let win
 
 let srcPath=path.join(__dirname,"../src")
 
-let clip=false
+let clip=true
 function createTray () {
     tray = new Tray(`${srcPath}/images/font.png`) // 指定图片的路径
     const contextMenu = Menu.buildFromTemplate([
         { label: 'clip', type: 'checkbox',click(){
             clip=!clip
-        } },
+        },checked:true },
         { label: 'about', type: 'checkbox' },
         { label: 'exit'}
     ])
@@ -31,18 +31,18 @@ function createCaptureWindow() {
     win = new BrowserWindow({ 
         // window 使用 fullscreen,  mac 设置为 undefined, 不可为 false
         fullscreen: process.platform !== 'darwin' || undefined, // win
-        width:800,
-        height:800,
+        width,
+        height,
         x: 0,
         y: 0,
-        // transparent: true,
-        // frame: false,
-        // skipTaskbar: true,
-        // autoHideMenuBar: true,
-        // movable: false,
-        // resizable: false,
-        // enableLargerThanScreen: true, // mac
-        // hasShadow: false,
+        transparent: true,
+        frame: false,
+        skipTaskbar: true,
+        autoHideMenuBar: true,
+        movable: false,
+        resizable: false,
+        enableLargerThanScreen: true, // mac
+        hasShadow: false,
     })
 
     win.setAlwaysOnTop(true, 'screen-saver') // mac
