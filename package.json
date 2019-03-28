@@ -1,0 +1,14 @@
+{
+  "name": "clip-font-app",
+  "version": "1.0.0",
+  "description": "clip font",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "yoki",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^4.1.1"
+  }
+}
