@@ -6,25 +6,49 @@ let win
 
 let srcPath=path.join(__dirname,"../src")
 
+let clip=false
 function createTray () {
     tray = new Tray(`${srcPath}/images/font.png`) // 指定图片的路径
     const contextMenu = Menu.buildFromTemplate([
         { label: 'clip', type: 'checkbox',click(){
-            globalShortcut.register('CmdOrCtrl+Shift+A', captureScreen)
+            clip=!clip
         } },
         { label: 'about', type: 'checkbox' },
         { label: 'exit'}
     ])
     tray.setToolTip('图图识字')
     tray.setContextMenu(contextMenu)
+    globalShortcut.register('CmdOrCtrl+Shift+V', captureScreen)
 }
 
 
-function createWindow() {
+function createCaptureWindow() {
     
     console.log(__dirname)
     // 创建浏览器窗口。
-    win = new BrowserWindow({ width: 800, height: 600 })
+    const { screen } = require('electron') //因为ready才可以引入
+    let { width, height } = screen.getPrimaryDisplay().bounds
+    win = new BrowserWindow({ 
+        // window 使用 fullscreen,  mac 设置为 undefined, 不可为 false
+        fullscreen: process.platform !== 'darwin' || undefined, // win
+        width:800,
+        height:800,
+        x: 0,
+        y: 0,
+        // transparent: true,
+        // frame: false,
+        // skipTaskbar: true,
+        // autoHideMenuBar: true,
+        // movable: false,
+        // resizable: false,
+        // enableLargerThanScreen: true, // mac
+        // hasShadow: false,
+    })
+
+    win.setAlwaysOnTop(true, 'screen-saver') // mac
+    win.setVisibleOnAllWorkspaces(true) // mac
+    win.setFullScreenable(false) // mac
+
 
     // 然后加载应用的 index.html。
     win.loadFile('../index.html')
@@ -40,7 +64,6 @@ function createWindow() {
         win = null
     })
 
-    // globalShortcut.register('CmdOrCtrl+Shift+A', captureScreen)
     globalShortcut.register('Esc', () => {
         if (win) {
             win.close()
@@ -68,7 +91,16 @@ app.on('activate', () => {
     // 在macOS上，当单击dock图标并且没有其他窗口打开时，
     // 通常在应用程序中重新创建一个窗口。
     if (win === null) {
-        createWindow()
+        createCaptureWindow()
     }
 })
 
+function captureScreen(){
+    if(clip){
+        console.log(22)
+        createCaptureWindow()
+    }else{
+        console.log(33)
+    }
+    console.log(11)
+}
