@@ -4,7 +4,7 @@
   "description": "clip font",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron src/main.js"
   },
   "author": "yoki",
   "license": "MIT",
