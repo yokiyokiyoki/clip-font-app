@@ -10,10 +10,13 @@ desktopCapturer.getSources({
         height: height * scaleFactor,
     }
 }, (error, sources) => {
-    let imgSrc = sources[0].thumbnail.toDataURL()
-    console.log(sources,imgSrc)
     if (error) return console.log(error)
-
+    let imgSrc = sources[0].thumbnail.toDataURL()
+    
+    //先保存一份全屏的截图到canvas里面
+    let fullScreenCtx=initFullScreenCanvas(document.querySelector('.bg'),imgSrc)
+    
+    console.log(sources,imgSrc)
     const $canvas=document.querySelector('.image-canvas')
     let ctx = $canvas.getContext('2d');
     // startX, startY 为鼠标点击时初始坐标
@@ -44,15 +47,15 @@ desktopCapturer.getSources({
             
             let margin = 7
             let radius = 5
-            $canvas.height=diffY* scaleFactor
-            $canvas.width=diffX* scaleFactor
+            $canvas.height=(diffY+ margin * 2)* scaleFactor
+            $canvas.width=(diffX+ margin * 2)* scaleFactor
             $canvas.style.left=`${startX- margin}px`
             $canvas.style.top=`${startY- margin}px`
             $canvas.style.display='block'
             ctx.fillStyle = '#ffffff'
             ctx.strokeStyle = '#67bade'
             ctx.lineWidth = 2*scaleFactor
-            ctx.strokeRect(0, 0, diffX* scaleFactor, diffY* scaleFactor);
+            ctx.strokeRect(margin * scaleFactor,margin * scaleFactor, diffX* scaleFactor, diffY* scaleFactor);
         }
     };
            
@@ -68,4 +71,24 @@ desktopCapturer.getSources({
 
 
 
+async function initFullScreenCanvas($bg,imageSrc){
+    $bg.style.backgroundImage = `url(${this.imageSrc})`
+    $bg.style.backgroundSize = `${width}px ${height}px`
+    let canvas = document.createElement('canvas')
+    let ctx = canvas.getContext('2d')
+    let img = await new Promise(resolve => {
+        let img = new Image()
+        img.src = this.imageSrc
+        if (img.complete) {
+            resolve(img)
+        } else {
+            img.onload = () => resolve(img)
+        }
+    })
 
+    canvas.width = img.width
+    canvas.height = img.height
+    ctx.drawImage(img, 0, 0)
+
+    return ctx;
+}
