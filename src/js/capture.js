@@ -43,7 +43,7 @@ desktopCapturer.getSources({
             // 计算坐标差值
             diffX = startX - e.target.offsetLeft;
             diffY = startY - e.target.offsetTop;
-            console.log(startX,startY,diffX,diffY,fullScreenCtx)
+            
             
             //外层canvas距离是7px
             let margin = 7
@@ -62,7 +62,12 @@ desktopCapturer.getSources({
             ctx.fillStyle = '#ffffff'
             ctx.strokeStyle = '#67bade'
             ctx.lineWidth = 2*scaleFactor
+            
             ctx.strokeRect(margin * scaleFactor,margin * scaleFactor, diffX* scaleFactor, diffY* scaleFactor);
+
+            // console.log(startX,startY,diffX,diffY,fullScreenCtx,imageData)
+            console.log(startX,startY,diffX,diffY,e.target.offsetLeft,e.target.offsetTop,e)
+            
         }
     };
            
