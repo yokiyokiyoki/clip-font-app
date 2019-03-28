@@ -9,12 +9,12 @@ desktopCapturer.getSources({
         width: width * scaleFactor,
         height: height * scaleFactor,
     }
-}, (error, sources) => {
+}, async(error, sources) => {
     if (error) return console.log(error)
     let imgSrc = sources[0].thumbnail.toDataURL()
     
     //先保存一份全屏的截图到canvas里面
-    let fullScreenCtx=initFullScreenCanvas(document.querySelector('.bg'),imgSrc)
+    let fullScreenCtx=await initFullScreenCanvas(document.querySelector('.bg'),imgSrc)
     
     console.log(sources,imgSrc)
     const $canvas=document.querySelector('.image-canvas')
@@ -43,8 +43,9 @@ desktopCapturer.getSources({
             // 计算坐标差值
             diffX = startX - e.target.offsetLeft;
             diffY = startY - e.target.offsetTop;
-            console.log(startX,startY,diffX,diffY)
+            console.log(startX,startY,diffX,diffY,fullScreenCtx)
             
+            //外层canvas距离是7px
             let margin = 7
             let radius = 5
             $canvas.height=(diffY+ margin * 2)* scaleFactor
@@ -52,6 +53,12 @@ desktopCapturer.getSources({
             $canvas.style.left=`${startX- margin}px`
             $canvas.style.top=`${startY- margin}px`
             $canvas.style.display='block'
+            
+
+            //获取矩形坐标在整个fullscreen的位置，生成imageData传入回矩形
+            let imageData = fullScreenCtx.getImageData(startX * scaleFactor, startY * scaleFactor, diffX * scaleFactor, diffY * scaleFactor)
+            ctx.putImageData(imageData, margin * scaleFactor, margin * scaleFactor)
+
             ctx.fillStyle = '#ffffff'
             ctx.strokeStyle = '#67bade'
             ctx.lineWidth = 2*scaleFactor
@@ -72,13 +79,13 @@ desktopCapturer.getSources({
 
 
 async function initFullScreenCanvas($bg,imageSrc){
-    $bg.style.backgroundImage = `url(${this.imageSrc})`
+    $bg.style.backgroundImage = `url(${imageSrc})`
     $bg.style.backgroundSize = `${width}px ${height}px`
     let canvas = document.createElement('canvas')
     let ctx = canvas.getContext('2d')
     let img = await new Promise(resolve => {
         let img = new Image()
-        img.src = this.imageSrc
+        img.src = imageSrc
         if (img.complete) {
             resolve(img)
         } else {
