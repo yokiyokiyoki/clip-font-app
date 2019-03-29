@@ -4,9 +4,11 @@
  * bg是背景dom
  * width是屏幕宽高
  * rect是选区canvas
+ * sizeInfo尺寸信息容器
+ * toolbar 工具栏
 */
 class Draw{
-    constructor(screenImgUrl,bg,screenWidth,screenHeight,rect){
+    constructor(screenImgUrl,bg,screenWidth,screenHeight,rect,sizeInfo,toolbar){
         this.screenImgUrl=screenImgUrl
         this.screenWidth=screenWidth
         this.screenHeight=screenHeight
@@ -19,6 +21,9 @@ class Draw{
 
         this.$rectDOM=rect
         this.$rectCtx= this.$rectDOM.getContext('2d');
+
+        this.$sizeInfoDom=sizeInfo
+        this.$toolbarDom=toolbar
 
         //存储位置，矩形宽高,是否可画等meta信息
         this.selectRectMeta={
