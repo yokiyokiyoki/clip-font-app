@@ -150,7 +150,7 @@ class Draw{
     //设置工具栏
     setToolBar(){
         this.$toolbarDom.style.display='block'
-        this.$toolbarDom.style.left=`${this.selectRectMeta.x+Math.abs(this.selectRectMeta.w)-100}px`
+        this.$toolbarDom.style.left=`${this.selectRectMeta.x+Math.abs(this.selectRectMeta.w)-125}px`
         this.$toolbarDom.style.top=`${this.selectRectMeta.y+Math.abs(this.selectRectMeta.h)}px`
         
         this.$toolbarDom.querySelector('.icon-load').addEventListener('click',(e)=>{
