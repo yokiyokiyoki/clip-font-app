@@ -27,6 +27,7 @@ desktopCapturer.getSources({
           
     // 鼠标按下
     document.onmousedown = function(e) {
+        //鼠标按下的定点坐标
         startX = e.pageX;
         startY = e.pageY;
           
@@ -42,10 +43,24 @@ desktopCapturer.getSources({
         e.stopPropagation()
         e.preventDefault()
         if(dragging){
-            // 计算坐标差值
+            // 计算坐标差值（宽高）
             diffX = e.pageX-startX ;
             diffY = e.pageY-startY;
-            
+            //没有拉伸距离会报错
+            if(!diffY||!diffX)return
+            let x,y
+            //计算真正的x，y坐标，根据距离在鼠标定点的左右来判断，即大于0
+            if(diffX>0){
+                startX 
+            }else{
+                x=e.pageX
+            }
+
+            if(diffY>0){
+                y=startY
+            }else{
+                y=e.pageY
+            }
             
             //外层canvas距离是7px
             let margin = 7
@@ -55,25 +70,14 @@ desktopCapturer.getSources({
             $canvas.height=(Math.abs(diffY)+ margin * 2)
             $canvas.width=(Math.abs(diffX) + margin * 2)
             
-            if(diffX>0){
-                $canvas.style.left=`${startX- margin}px`
-                
-            }else{
-                $canvas.style.left=`${e.pageX- margin}px`
-            }
-
-            if(diffY>0){
-                $canvas.style.top=`${startY- margin}px`
-            }else{
-                $canvas.style.top=`${e.pageY- margin}px`
-            }
+            $canvas.style.left=`${x- margin}px`
+            $canvas.style.top=`${y- margin}px`
             
             $canvas.style.display='block'
             
-            //没有拉伸距离会报错
-            if(!diffY||!diffX)return
+            
             //获取矩形坐标在整个fullscreen的位置，生成imageData传入回矩形
-            let imageData = fullScreenCtx.getImageData(startX , startY , Math.abs(diffX) , Math.abs(diffY) )
+            let imageData = fullScreenCtx.getImageData(startX , startY , Math.abs(diffX)*scaleFactor , Math.abs(diffY)*scaleFactor )
             ctx.putImageData(imageData, margin , margin )
 
             ctx.fillStyle = '#ffffff'
