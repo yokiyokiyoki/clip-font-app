@@ -39,25 +39,40 @@ desktopCapturer.getSources({
            
     // 鼠标移动
     document.onmousemove = function(e) {
+        e.stopPropagation()
+        e.preventDefault()
         if(dragging){
             // 计算坐标差值
-            diffX = startX - e.target.offsetLeft;
-            diffY = startY - e.target.offsetTop;
+            diffX = e.pageX-startX ;
+            diffY = e.pageY-startY;
             
             
             //外层canvas距离是7px
             let margin = 7
             let radius = 5
-            $canvas.height=(diffY+ margin * 2)* scaleFactor
-            $canvas.width=(diffX+ margin * 2)* scaleFactor
-            $canvas.style.left=`${startX- margin}px`
-            $canvas.style.top=`${startY- margin}px`
+            
+            //宽高需赋值绝对值为正
+            $canvas.height=(Math.abs(diffY)+ margin * 2)
+            $canvas.width=(Math.abs(diffX) + margin * 2)
+            
+            if(diffX>0){
+                $canvas.style.left=`${startX- margin}px`
+                
+            }else{
+                $canvas.style.left=`${e.pageX- margin}px`
+            }
+
+            if(diffY>0){
+                $canvas.style.top=`${startY- margin}px`
+            }else{
+                $canvas.style.top=`${e.pageY- margin}px`
+            }
+            
             $canvas.style.display='block'
             
-
             //获取矩形坐标在整个fullscreen的位置，生成imageData传入回矩形
-            let imageData = fullScreenCtx.getImageData(startX * scaleFactor, startY * scaleFactor, diffX * scaleFactor, diffY * scaleFactor)
-            ctx.putImageData(imageData, margin * scaleFactor, margin * scaleFactor)
+            let imageData = fullScreenCtx.getImageData(startX * scaleFactor, startY * scaleFactor, +diffX , +diffY )
+            ctx.putImageData(imageData, margin , margin )
 
             ctx.fillStyle = '#ffffff'
             ctx.strokeStyle = '#67bade'
@@ -66,7 +81,7 @@ desktopCapturer.getSources({
             ctx.strokeRect(margin * scaleFactor,margin * scaleFactor, diffX* scaleFactor, diffY* scaleFactor);
 
             // console.log(startX,startY,diffX,diffY,fullScreenCtx,imageData)
-            console.log(startX,startY,diffX,diffY,e.target.offsetLeft,e.target.offsetTop,e)
+            console.log(startX,startY,diffX,diffY,width,height)
             
         }
     };
