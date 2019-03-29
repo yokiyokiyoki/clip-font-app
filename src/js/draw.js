@@ -4,7 +4,7 @@
  * bg是背景dom
  * width是屏幕宽高
  * rect是选区canvas
- * sizeInfo尺寸信息容器
+ * sizeInfo 尺寸信息容器
  * toolbar 工具栏
 */
 class Draw{
@@ -39,6 +39,7 @@ class Draw{
 
         //绑定this到原型链上,方便使用
         this.getMouseMeta=this.getMouseMeta.bind(this)
+        this.setSizeInfo=this.setSizeInfo.bind(this)
     }
 
     //记录屏幕快照，并赋值给背景
@@ -104,6 +105,9 @@ class Draw{
         this.$rectCtx.strokeRect(0 ,0 , Math.abs(this.selectRectMeta.w), Math.abs(this.selectRectMeta.h));
 
         this.$rectDOM.style.display='block'
+
+        //尺寸信息
+        this.setSizeInfo()
     }
 
     getMouseMeta(e){
@@ -129,6 +133,14 @@ class Draw{
     //画完，对应mouseup事件
     endRect(e){
         this.drawing=false
+    }
+
+    //设置size-info，就是取宽高
+    setSizeInfo(){
+        this.$sizeInfoDom.style.display='block'
+        this.$sizeInfoDom.style.left=`${this.selectRectMeta.x}px`
+        this.$sizeInfoDom.style.top=`${this.selectRectMeta.y-25}px`
+        this.$sizeInfoDom.innerHTML=`${Math.abs(this.selectRectMeta.w)}*${Math.abs(this.selectRectMeta.h)}`
     }
 }
 exports.Draw=Draw
