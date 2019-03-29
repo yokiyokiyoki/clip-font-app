@@ -152,6 +152,22 @@ class Draw{
         this.$toolbarDom.style.display='block'
         this.$toolbarDom.style.left=`${this.selectRectMeta.x+Math.abs(this.selectRectMeta.w)-100}px`
         this.$toolbarDom.style.top=`${this.selectRectMeta.y+Math.abs(this.selectRectMeta.h)}px`
+        
+        this.$toolbarDom.querySelector('.icon-load').addEventListener('click',(e)=>{
+            console.log('下载')
+        })
+
+        this.$toolbarDom.querySelector('.icon-close').addEventListener('click',(e)=>{
+            console.log('关闭')
+        })
+
+        this.$toolbarDom.querySelector('.icon-check').addEventListener('click',(e)=>{
+            console.log('确认')
+        })
+
+        this.$toolbarDom.querySelector('.icon-literacy').addEventListener('click',(e)=>{
+            console.log('识别')
+        })
     }
 }
 exports.Draw=Draw
