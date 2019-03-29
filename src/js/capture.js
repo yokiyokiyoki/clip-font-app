@@ -1,13 +1,10 @@
 const { ipcRenderer, clipboard, nativeImage, remote, desktopCapturer, screen } = require('electron')
-
-//screen.getPrimaryDisplay() 可以获取主屏幕的大小和缩放比例, 缩放比例在高分屏中适用, 在高分屏中屏幕的物理尺寸和窗口尺寸并不一致, 一般会有2倍3倍等缩放倍数, 所以为了获取到高清的屏幕截图, 需要在屏幕尺寸基础上乘以缩放倍数
-const { bounds: { width, height }, scaleFactor } = screen.getPrimaryDisplay()
+const { bounds: { width, height } } = screen.getPrimaryDisplay()
 
 desktopCapturer.getSources({
     types: ['screen'],
     thumbnailSize: {
-        width: width * scaleFactor,
-        height: height * scaleFactor,
+        width, height
     }
 }, async(error, sources) => {
     if (error) return console.log(error)
@@ -34,8 +31,7 @@ desktopCapturer.getSources({
         // 允许拖动
         dragging = true;
           
-        
-        console.log(startX,startY,diffX,diffY,scaleFactor)
+
     };
            
     // 鼠标移动
@@ -51,7 +47,7 @@ desktopCapturer.getSources({
             let x,y
             //计算真正的x，y坐标，根据距离在鼠标定点的左右来判断，即大于0
             if(diffX>0){
-                startX 
+                x=startX 
             }else{
                 x=e.pageX
             }
@@ -62,32 +58,29 @@ desktopCapturer.getSources({
                 y=e.pageY
             }
             
-            //外层canvas距离是7px
-            let margin = 7
-            let radius = 5
 
             //宽高需赋值绝对值为正
-            $canvas.height=(Math.abs(diffY)+ margin * 2)
-            $canvas.width=(Math.abs(diffX) + margin * 2)
+            $canvas.height=Math.abs(diffY)
+            $canvas.width=Math.abs(diffX)
             
-            $canvas.style.left=`${x- margin}px`
-            $canvas.style.top=`${y- margin}px`
+            $canvas.style.left=`${x}px`
+            $canvas.style.top=`${y}px`
             
             $canvas.style.display='block'
             
             
             //获取矩形坐标在整个fullscreen的位置，生成imageData传入回矩形
-            let imageData = fullScreenCtx.getImageData(startX , startY , Math.abs(diffX)*scaleFactor , Math.abs(diffY)*scaleFactor )
-            ctx.putImageData(imageData, margin , margin )
+            let imageData = fullScreenCtx.getImageData(x , y , Math.abs(diffX) , Math.abs(diffY) )
+            ctx.putImageData(imageData, 0 ,0 )
 
             ctx.fillStyle = '#ffffff'
             ctx.strokeStyle = '#67bade'
-            ctx.lineWidth = 2*scaleFactor
+            ctx.lineWidth = 2
             
-            ctx.strokeRect(margin ,margin , Math.abs(diffX), Math.abs(diffY));
+            ctx.strokeRect(0 ,0 , Math.abs(diffX), Math.abs(diffY));
 
             // console.log(startX,startY,diffX,diffY,fullScreenCtx,imageData)
-            console.log(startX,startY,imageData)
+
             
         }
     };
