@@ -20,7 +20,7 @@ desktopCapturer.getSources({
     let bg=document.querySelector('.bg')
     let rect=document.querySelector('.rect')
     let sizeInfo=document.querySelector('.size-info')
-    let toolbar=document.querySelector('toolbar')
+    let toolbar=document.querySelector('.toolbar')
     let draw=new Draw(screenImgUrl,bg,width,height,rect,sizeInfo,toolbar)
     document.addEventListener('mousedown',draw.startRect.bind(draw))
     document.addEventListener('mousemove',draw.drawingRect.bind(draw))

@@ -40,6 +40,7 @@ class Draw{
         //绑定this到原型链上,方便使用
         this.getMouseMeta=this.getMouseMeta.bind(this)
         this.setSizeInfo=this.setSizeInfo.bind(this)
+        this.setToolBar=this.setToolBar.bind(this)
     }
 
     //记录屏幕快照，并赋值给背景
@@ -133,6 +134,9 @@ class Draw{
     //画完，对应mouseup事件
     endRect(e){
         this.drawing=false
+
+        //画完显示工具条
+        this.setToolBar()
     }
 
     //设置size-info，就是取宽高
@@ -141,6 +145,13 @@ class Draw{
         this.$sizeInfoDom.style.left=`${this.selectRectMeta.x}px`
         this.$sizeInfoDom.style.top=`${this.selectRectMeta.y-25}px`
         this.$sizeInfoDom.innerHTML=`${Math.abs(this.selectRectMeta.w)}*${Math.abs(this.selectRectMeta.h)}`
+    }
+
+    //设置工具栏
+    setToolBar(){
+        this.$toolbarDom.style.display='block'
+        this.$toolbarDom.style.left=`${this.selectRectMeta.x+Math.abs(this.selectRectMeta.w)-100}px`
+        this.$toolbarDom.style.top=`${this.selectRectMeta.y+Math.abs(this.selectRectMeta.h)}px`
     }
 }
 exports.Draw=Draw
