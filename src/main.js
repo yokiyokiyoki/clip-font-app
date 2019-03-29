@@ -97,10 +97,6 @@ app.on('activate', () => {
 
 function captureScreen(){
     if(clip){
-        console.log(22)
         createCaptureWindow()
-    }else{
-        console.log(33)
     }
-    console.log(11)
 }
