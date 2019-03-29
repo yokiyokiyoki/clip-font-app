@@ -7,6 +7,7 @@
  * sizeInfo 尺寸信息容器
  * toolbar 工具栏
 */
+const { ipcRenderer,clipboard,nativeImage } = require('electron')
 class Draw{
     constructor(screenImgUrl,bg,screenWidth,screenHeight,rect,sizeInfo,toolbar){
         this.screenImgUrl=screenImgUrl
@@ -35,12 +36,16 @@ class Draw{
             h:0, //向量，高，为负说明在startY的左边
             drawing:false,//是否可画，mousedown为true，mouseup为false
             dragging:false,//是否可拖拽
+            imgData:null,//矩阵图信息
         }
 
         //绑定this到原型链上,方便使用
         this.getMouseMeta=this.getMouseMeta.bind(this)
         this.setSizeInfo=this.setSizeInfo.bind(this)
         this.setToolBar=this.setToolBar.bind(this)
+        this.destroy=this.destroy.bind(this)
+        this.done=this.done.bind(this)
+        this.sendMsg=this.sendMsg.bind(this)
     }
 
     //记录屏幕快照，并赋值给背景
@@ -96,8 +101,8 @@ class Draw{
         //没有拉伸距离会报错
         if(!this.selectRectMeta.w||!this.selectRectMeta.h) return 
         //获取矩形坐标在整个fullscreen的位置，生成imageData传入回矩形选区
-        let imageData = this.$bgCtx.getImageData(this.selectRectMeta.x , this.selectRectMeta.y , Math.abs(this.selectRectMeta.w) , Math.abs(this.selectRectMeta.h) )
-        this.$rectCtx.putImageData(imageData, 0 ,0 )
+        this.selectRectMeta.imageData = this.$bgCtx.getImageData(this.selectRectMeta.x , this.selectRectMeta.y , Math.abs(this.selectRectMeta.w) , Math.abs(this.selectRectMeta.h) )
+        this.$rectCtx.putImageData(this.selectRectMeta.imageData, 0 ,0 )
 
         this.$rectCtx.fillStyle = 'white'
         this.$rectCtx.strokeStyle = 'black'
@@ -159,15 +164,46 @@ class Draw{
 
         this.$toolbarDom.querySelector('.icon-close').addEventListener('click',(e)=>{
             console.log('关闭')
+            this.destroy()
         })
 
         this.$toolbarDom.querySelector('.icon-check').addEventListener('click',(e)=>{
             console.log('确认')
+            this.done()
         })
 
         this.$toolbarDom.querySelector('.icon-literacy').addEventListener('click',(e)=>{
             console.log('识别')
         })
+    }
+
+    destroy(data){
+        this.sendMsg('close', data)
+    }
+
+    done(){
+        var imgData = this.RGBA2ImageData(this.selectRectMeta.imageData);
+        //写入剪贴板
+        clipboard.writeImage(nativeImage.createFromDataURL(imgData));
+        this.destroy({  base64: imgData });
+    }
+
+    sendMsg(type, msg) {
+        ipcRenderer.send('clip-page', { type: type, message: msg })
+    }
+
+    // 矩阵图转base64格式,原理是插入canvas里面，通过canvas转成图片
+    RGBA2ImageData(RGBAImg) {
+        let width = RGBAImg.width
+        let  height = RGBAImg.height;
+        let canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext('2d');
+        let imgData = ctx.createImageData(width, height);
+        imgData.data.set(RGBAImg.data);
+        ctx.putImageData(imgData, 0, 0);
+        return canvas.toDataURL();
     }
 }
 exports.Draw=Draw

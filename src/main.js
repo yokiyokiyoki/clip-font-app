@@ -1,4 +1,4 @@
-const { app, BrowserWindow,  globalShortcut ,Tray,Menu} = require('electron')
+const { app, BrowserWindow,  globalShortcut ,Tray,Menu,ipcMain} = require('electron')
 
 const path=require('path')
 
@@ -100,3 +100,13 @@ function captureScreen(){
         createCaptureWindow()
     }
 }
+
+ipcMain.on('clip-page', (event, {type,msg}) => {
+    if(type==='close'){
+        if (win) {
+            win.close()
+            win = null
+        }
+    }
+    
+})
