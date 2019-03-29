@@ -50,7 +50,7 @@ desktopCapturer.getSources({
             //外层canvas距离是7px
             let margin = 7
             let radius = 5
-            
+
             //宽高需赋值绝对值为正
             $canvas.height=(Math.abs(diffY)+ margin * 2)
             $canvas.width=(Math.abs(diffX) + margin * 2)
@@ -70,18 +70,20 @@ desktopCapturer.getSources({
             
             $canvas.style.display='block'
             
+            //没有拉伸距离会报错
+            if(!diffY||!diffX)return
             //获取矩形坐标在整个fullscreen的位置，生成imageData传入回矩形
-            let imageData = fullScreenCtx.getImageData(startX * scaleFactor, startY * scaleFactor, +diffX , +diffY )
+            let imageData = fullScreenCtx.getImageData(startX , startY , Math.abs(diffX) , Math.abs(diffY) )
             ctx.putImageData(imageData, margin , margin )
 
             ctx.fillStyle = '#ffffff'
             ctx.strokeStyle = '#67bade'
             ctx.lineWidth = 2*scaleFactor
             
-            ctx.strokeRect(margin * scaleFactor,margin * scaleFactor, diffX* scaleFactor, diffY* scaleFactor);
+            ctx.strokeRect(margin ,margin , Math.abs(diffX), Math.abs(diffY));
 
             // console.log(startX,startY,diffX,diffY,fullScreenCtx,imageData)
-            console.log(startX,startY,diffX,diffY,width,height)
+            console.log(startX,startY,imageData)
             
         }
     };
