@@ -30,7 +30,7 @@ desktopCapturer.getSources({
  * width是屏幕宽高
  * rect是选区canvas
 */
-export class Draw{
+class Draw{
     constructor(screenImgUrl,bg,screenWidth,screenHeight,rect){
         this.screenImgUrl=screenImgUrl
         this.screenWidth=screenWidth
