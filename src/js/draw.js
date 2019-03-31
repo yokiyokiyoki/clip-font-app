@@ -223,6 +223,8 @@ class Draw{
                     return `${acc}\n(1).${item.value}`
                 },'识别文字如下:'))
                 this.destroy({  base64: this.selectRectMeta.base64Data });
+            }else{
+                //抛出错误
             }
         })
     }
