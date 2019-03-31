@@ -7,6 +7,8 @@
  * sizeInfo 尺寸信息容器
  * toolbar 工具栏
 */
+
+const axios = require('axios');
 const { ipcRenderer,clipboard,nativeImage } = require('electron')
 class Draw{
     constructor(screenImgUrl,bg,screenWidth,screenHeight,rect,sizeInfo,toolbar){
@@ -36,7 +38,8 @@ class Draw{
             h:0, //向量，高，为负说明在startY的左边
             drawing:false,//是否可画，mousedown为true，mouseup为false
             dragging:false,//是否可拖拽
-            imgData:null,//矩阵图信息
+            RGBAData:null,//矩阵图信息
+            base64Data:null,//base64编码的二进制图片数据
         }
 
         //绑定this到原型链上,方便使用
@@ -54,7 +57,7 @@ class Draw{
         this.$bgDOM.style.backgroundImage = `url(${this.screenImgUrl})`
         this.$bgDOM.style.backgroundSize = `${this.screenWidth}px ${this.screenHeight}px`
     
-        //创建新的canvas上下文作为存储，方便取出里面的imgData
+        //创建新的canvas上下文作为存储，方便取出里面的rgba信息
         this.$bgCanvas = document.createElement('canvas')
         this.$bgCtx =  this.$bgCanvas.getContext('2d')
 
@@ -100,9 +103,9 @@ class Draw{
         
         //没有拉伸距离会报错
         if(!this.selectRectMeta.w||!this.selectRectMeta.h) return 
-        //获取矩形坐标在整个fullscreen的位置，生成imageData传入回矩形选区
-        this.selectRectMeta.imageData = this.$bgCtx.getImageData(this.selectRectMeta.x , this.selectRectMeta.y , Math.abs(this.selectRectMeta.w) , Math.abs(this.selectRectMeta.h) )
-        this.$rectCtx.putImageData(this.selectRectMeta.imageData, 0 ,0 )
+        //获取矩形坐标在整个fullscreen的位置，生成RGBAData传入回矩形选区
+        this.selectRectMeta.RGBAData = this.$bgCtx.getImageData(this.selectRectMeta.x , this.selectRectMeta.y , Math.abs(this.selectRectMeta.w) , Math.abs(this.selectRectMeta.h) )
+        this.$rectCtx.putImageData(this.selectRectMeta.RGBAData, 0 ,0 )
 
         this.$rectCtx.fillStyle = 'white'
         this.$rectCtx.strokeStyle = 'black'
@@ -140,8 +143,12 @@ class Draw{
     endRect(e){
         this.drawing=false
 
+        //转成base64
+        this.selectRectMeta.base64Data = this.RGBA2ImageData(this.selectRectMeta.RGBAData);
+
         //画完显示工具条
         this.setToolBar()
+
     }
 
     //设置size-info，就是取宽高
@@ -155,7 +162,7 @@ class Draw{
     //设置工具栏
     setToolBar(){
         this.$toolbarDom.style.display='block'
-        this.$toolbarDom.style.left=`${this.selectRectMeta.x+Math.abs(this.selectRectMeta.w)-125}px`
+        this.$toolbarDom.style.left=`${this.selectRectMeta.x+Math.abs(this.selectRectMeta.w)-105}px`
         this.$toolbarDom.style.top=`${this.selectRectMeta.y+Math.abs(this.selectRectMeta.h)}px`
         
 
@@ -174,15 +181,28 @@ class Draw{
         })
     }
 
+    //关闭按钮
     destroy(data){
         this.sendMsg('close', data)
     }
 
+    //check按钮的动作
     done(){
-        var imgData = this.RGBA2ImageData(this.selectRectMeta.imageData);
+        
         //写入剪贴板
-        clipboard.writeImage(nativeImage.createFromDataURL(imgData));
-        this.destroy({  base64: imgData });
+        clipboard.writeImage(nativeImage.createFromDataURL(this.selectRectMeta.base64Data));
+        this.destroy({  base64: this.selectRectMeta.base64Data });
+    }
+
+    //识别按钮
+    distinguish(){
+        // axios.get('https://api-cn.faceplusplus.com/imagepp/v1/recognizetext',{
+        //     api_key:
+        //     api_secret:
+        //     image_base64:
+        // }).then(data=>{
+        //     console.log(data)
+        // })
     }
 
     sendMsg(type, msg) {
