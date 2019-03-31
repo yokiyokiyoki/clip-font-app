@@ -1,5 +1,7 @@
 const { app, BrowserWindow,  globalShortcut ,Tray,Menu,ipcMain} = require('electron')
 
+const shell = require('electron').shell;
+
 const path=require('path')
 
 let win
@@ -13,8 +15,12 @@ function createTray () {
         { label: 'clip', type: 'checkbox',click(){
             clip=!clip
         },checked:true },
-        { label: 'about', type: 'checkbox' },
-        { label: 'exit'}
+        { label: 'about', click(){
+            shell.openExternal('https://github.com/yokiyokiyoki/clip-font-app');
+        } },
+        { label: 'exit',click(){
+            app.quit()
+        }}
     ])
     tray.setToolTip('图图识字')
     tray.setContextMenu(contextMenu)
