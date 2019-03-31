@@ -2,7 +2,7 @@
   "name": "clip-font-app",
   "version": "1.0.0",
   "description": "clip font",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
     "build": "electron-builder"
@@ -25,7 +25,8 @@
     "files": [
       "dist/electron/**/*",
       "node_modules/",
-      "package.json"
+      "package.json",
+      "src/"
     ],
     "nsis": {
       "oneClick": false,
@@ -70,6 +71,9 @@
     },
     "linux": {
       "icon": "build/icons"
+    },
+    "electronDownload": {
+      "mirror": "http://npm.taobao.org/mirrors/electron/"
     }
   }
 }

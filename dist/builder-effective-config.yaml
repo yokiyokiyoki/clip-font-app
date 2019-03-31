@@ -1,0 +1,44 @@
+directories:
+  output: dist
+  buildResources: build
+productName: clip-font-app
+appId: Personal.DesktopApp.ClipFont.1.0.0
+files:
+  - filter:
+      - dist/electron/**/*
+      - node_modules/
+      - package.json
+      - src/
+nsis:
+  oneClick: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  installerIcon: build/icons/icon.ico
+  uninstallerIcon: build/icons/icon.ico
+  installerHeaderIcon: build/icons/icon.ico
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: ClipFont
+  include: build/script/installer.nsh
+dmg:
+  contents:
+    - x: 410
+      'y': 150
+      type: link
+      path: /Applications
+    - x: 130
+      'y': 150
+      type: file
+mac:
+  icon: build/icons/icon.icns
+win:
+  icon: build/icons/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - ia32
+linux:
+  icon: build/icons
+electronDownload:
+  mirror: 'http://npm.taobao.org/mirrors/electron/'
+electronVersion: 4.1.1
