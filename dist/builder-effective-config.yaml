@@ -5,11 +5,7 @@ productName: clip-font-app
 appId: Personal.DesktopApp.ClipFont.1.0.0
 files:
   - filter:
-      - dist/electron/**/*
-      - node_modules/
-      - package.json
-      - src/**/**
-      - index.html
+      - ./**/**
 nsis:
   oneClick: false
   allowElevation: true

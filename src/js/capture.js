@@ -2,9 +2,9 @@ const {  desktopCapturer, screen } = require('electron')
 const { bounds: { width, height } } = screen.getPrimaryDisplay()
 const path=require('path')
 
-
-const {Draw} = require(`${__dirname}/js/draw.js`)
-// console.log(__dirname,path.resolve('.'))
+console.log(__dirname,path.resolve('.'))
+const {Draw} = require(`${__dirname}/src/js/draw.js`)
+// const {Draw} = require(`./js/draw.js`)
 
 
 

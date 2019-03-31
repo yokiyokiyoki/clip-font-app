@@ -59,7 +59,7 @@ function createCaptureWindow() {
 
 
     // 然后加载应用的 index.html。
-    win.loadFile(path.join(__dirname,'../src/index.html'))
+    win.loadFile(path.join(__dirname,'../index.html'))
 
     // 打开开发者工具
     win.webContents.openDevTools()

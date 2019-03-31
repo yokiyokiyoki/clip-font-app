@@ -11,7 +11,8 @@
   "author": "yoki",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "qs": "^6.7.0"
   },
   "devDependencies": {
     "electron": "^4.1.1",
@@ -21,15 +22,10 @@
     "productName": "clip-font-app",
     "appId": "Personal.DesktopApp.ClipFont.1.0.0",
     "directories": {
-      "output": "dist",
-      "app": "./src"
+      "output": "dist"
     },
     "files": [
-      "dist/electron/**/*",
-      "node_modules/",
-      "package.json",
-      "src/**/**",
-      "index.html"
+      "./**/**"
     ],
     "nsis": {
       "oneClick": false,

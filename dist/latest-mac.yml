@@ -1,12 +1,12 @@
 version: 1.0.0
 files:
   - url: clip-font-app-1.0.0-mac.zip
-    sha512: +1i8xVhS4Vm5bEuhju1W0cj1z+soClrGhkxvLFuwoZsxF4DmvsM/zvsTx71iDYDUdOAjam0hniRYW6HHgCx31g==
-    size: 52270123
-    blockMapSize: 55689
+    sha512: 34zZILXqMJWHjomnQrYXIgNur2PHZilrvOr8xvPL522DeHAXrMPJwiJqXShqFTNmrfGec4RlHY/mscBcI2rgKA==
+    size: 52279164
+    blockMapSize: 55683
   - url: clip-font-app-1.0.0.dmg
-    sha512: wRWOW2po1q4hB/1PgF+rqt4m3TffYNynXexJ9eYBs7diIHvQh4YTl66ISXSpTWDDTd6526q3GXEG+KOprpakhg==
-    size: 53916842
+    sha512: +GvksuBSGeBQYOxEeANyOjRDKdgh664mavg6YtbAdIOp7fLMvdCQ3PDoM4p+BLfzayAWZJd3gv4ZfiLGhKaaSA==
+    size: 53928186
 path: clip-font-app-1.0.0-mac.zip
-sha512: +1i8xVhS4Vm5bEuhju1W0cj1z+soClrGhkxvLFuwoZsxF4DmvsM/zvsTx71iDYDUdOAjam0hniRYW6HHgCx31g==
-releaseDate: '2019-03-31T11:03:43.958Z'
+sha512: 34zZILXqMJWHjomnQrYXIgNur2PHZilrvOr8xvPL522DeHAXrMPJwiJqXShqFTNmrfGec4RlHY/mscBcI2rgKA==
+releaseDate: '2019-03-31T11:56:08.757Z'
