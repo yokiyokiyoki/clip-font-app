@@ -42,6 +42,9 @@ function createCaptureWindow() {
         resizable: false,
         enableLargerThanScreen: true, // mac
         hasShadow: false,
+        webPreferences: {
+            webSecurity: false //可以加载本地文件
+        }
     })
 
     win.setAlwaysOnTop(true, 'screen-saver') // mac
@@ -53,7 +56,7 @@ function createCaptureWindow() {
     win.loadFile(path.join(__dirname,'../index.html'))
 
     // 打开开发者工具
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 
     // 当 window 被关闭，这个事件会被触发。
     win.on('closed', () => {
