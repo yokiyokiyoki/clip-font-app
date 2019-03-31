@@ -197,7 +197,7 @@ class Draw{
     //check按钮的动作
     done(e){
         
-        //写入剪贴板
+        //写入图片到剪贴板
         clipboard.writeImage(nativeImage.createFromDataURL(this.selectRectMeta.base64Data));
         this.destroy({  base64: this.selectRectMeta.base64Data });
     }
@@ -217,6 +217,13 @@ class Draw{
             })
         }).then(data=>{
             console.log(data)
+            if(data.status===200){
+                //写入文字到剪贴板
+                clipboard.writeText(data.data.result.reduce((acc,item)=>{
+                    return `${acc}\n(1).${item.value}`
+                },'识别文字如下:'))
+                this.destroy({  base64: this.selectRectMeta.base64Data });
+            }
         })
     }
 
