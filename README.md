@@ -28,9 +28,9 @@ $ npm run build       # 打包
 
 ```
 ├─ dist           # 打包目录
-├─ index.html     # 渲染进程的页面
 ├─ src
 │  └─ main.js    #入口文件
+│  └─ index.html     # 渲染进程的页面
 ```
 
 ### 安装

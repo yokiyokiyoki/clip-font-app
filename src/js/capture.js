@@ -2,10 +2,10 @@ const {  desktopCapturer, screen } = require('electron')
 const { bounds: { width, height } } = screen.getPrimaryDisplay()
 const path=require('path')
 
-//这里需要注意一下’./draw.js‘，require会报错。这是因为.目录是根目录（通过path.resolve('.')发现）
-// console.log(__dirname,Draw,path.resolve('.'))
-// const {Draw} = require(`${__dirname}/src/js/draw.js`)
-const {Draw} = require(`./src/js/draw.js`)
+
+const {Draw} = require(`${__dirname}/js/draw.js`)
+// console.log(__dirname,path.resolve('.'))
+
 
 
 desktopCapturer.getSources({

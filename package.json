@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "build:dir": "electron-builder --dir"
   },
   "author": "yoki",
   "license": "MIT",
@@ -20,13 +21,15 @@
     "productName": "clip-font-app",
     "appId": "Personal.DesktopApp.ClipFont.1.0.0",
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "app": "./src"
     },
     "files": [
       "dist/electron/**/*",
       "node_modules/",
       "package.json",
-      "src/"
+      "src/**/**",
+      "index.html"
     ],
     "nsis": {
       "oneClick": false,
