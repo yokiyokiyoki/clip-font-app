@@ -13,13 +13,12 @@ nsis:
   oneClick: false
   allowElevation: true
   allowToChangeInstallationDirectory: true
-  installerIcon: build/icons/icon.ico
-  uninstallerIcon: build/icons/icon.ico
-  installerHeaderIcon: build/icons/icon.ico
+  installerIcon: src/images/icon.ico
+  uninstallerIcon: src/images/icon.ico
+  installerHeaderIcon: src/images/icon.ico
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: ClipFont
-  include: build/script/installer.nsh
 dmg:
   contents:
     - x: 410
@@ -30,15 +29,15 @@ dmg:
       'y': 150
       type: file
 mac:
-  icon: build/icons/icon.icns
+  icon: src/images/icon.icns
 win:
-  icon: build/icons/icon.ico
+  icon: src/images/icon.ico
   target:
     - target: nsis
       arch:
         - ia32
 linux:
-  icon: build/icons
+  icon: src/images
 electronDownload:
   mirror: 'http://npm.taobao.org/mirrors/electron/'
 electronVersion: 4.1.1

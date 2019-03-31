@@ -32,13 +32,12 @@
       "oneClick": false,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "build/icons/icon.ico",
-      "uninstallerIcon": "build/icons/icon.ico",
-      "installerHeaderIcon": "build/icons/icon.ico",
+      "installerIcon": "src/images/icon.ico",
+      "uninstallerIcon": "src/images/icon.ico",
+      "installerHeaderIcon": "src/images/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "ClipFont",
-      "include": "build/script/installer.nsh"
+      "shortcutName": "ClipFont"
     },
     "dmg": {
       "contents": [
@@ -56,10 +55,10 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "src/images/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico",
+      "icon": "src/images/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -70,7 +69,7 @@
       ]
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "src/images"
     },
     "electronDownload": {
       "mirror": "http://npm.taobao.org/mirrors/electron/"
