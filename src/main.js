@@ -16,6 +16,7 @@ function createTray () {
             clip=!clip
         },checked:true },
         { label: 'about', click(){
+            //打开默认浏览器
             shell.openExternal('https://github.com/yokiyokiyoki/clip-font-app');
         } },
         { label: 'exit',click(){
@@ -24,7 +25,14 @@ function createTray () {
     ])
     tray.setToolTip('图图识字')
     tray.setContextMenu(contextMenu)
+    //注册快捷键
     globalShortcut.register('CmdOrCtrl+Shift+V', captureScreen)
+    globalShortcut.register('Esc', () => {
+        if (win) {
+            win.close()
+            win = null
+        }
+    })
 }
 
 
@@ -72,12 +80,7 @@ function createCaptureWindow() {
         win = null
     })
 
-    globalShortcut.register('Esc', () => {
-        if (win) {
-            win.close()
-            win = null
-        }
-    })
+    
 }
 
 // Electron 会在初始化后并准备
