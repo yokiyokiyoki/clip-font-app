@@ -23,9 +23,8 @@ function createTray () {
 
 
 function createCaptureWindow() {
-    
-    console.log(__dirname)
-    // 创建浏览器窗口。
+    // 创建浏览器窗口，只允许创建一个
+    if(win)return console.info('只能有一个CaptureWindow')
     const { screen } = require('electron') //因为ready才可以引入
     let { width, height } = screen.getPrimaryDisplay().bounds
     win = new BrowserWindow({ 
