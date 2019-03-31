@@ -9,6 +9,7 @@
 */
 
 const axios = require('axios');
+const qs=require('qs')
 const { ipcRenderer,clipboard,nativeImage } = require('electron')
 class Draw{
     constructor(screenImgUrl,bg,screenWidth,screenHeight,rect,sizeInfo,toolbar){
@@ -49,6 +50,9 @@ class Draw{
         this.destroy=this.destroy.bind(this)
         this.done=this.done.bind(this)
         this.sendMsg=this.sendMsg.bind(this)
+
+        //初始化toolbar事件
+        this.initToolBarEvent()
     }
 
     //记录屏幕快照，并赋值给背景
@@ -164,8 +168,11 @@ class Draw{
         this.$toolbarDom.style.display='block'
         this.$toolbarDom.style.left=`${this.selectRectMeta.x+Math.abs(this.selectRectMeta.w)-105}px`
         this.$toolbarDom.style.top=`${this.selectRectMeta.y+Math.abs(this.selectRectMeta.h)}px`
-        
 
+    }
+
+    //初始化工具栏事件
+    initToolBarEvent(){
         this.$toolbarDom.querySelector('.icon-close').addEventListener('click',(e)=>{
             console.log('关闭')
             this.destroy()
@@ -178,6 +185,7 @@ class Draw{
 
         this.$toolbarDom.querySelector('.icon-literacy').addEventListener('click',(e)=>{
             console.log('识别')
+            this.distinguish()
         })
     }
 
@@ -187,7 +195,7 @@ class Draw{
     }
 
     //check按钮的动作
-    done(){
+    done(e){
         
         //写入剪贴板
         clipboard.writeImage(nativeImage.createFromDataURL(this.selectRectMeta.base64Data));
@@ -195,14 +203,21 @@ class Draw{
     }
 
     //识别按钮
-    distinguish(){
-        // axios.get('https://api-cn.faceplusplus.com/imagepp/v1/recognizetext',{
-        //     api_key:
-        //     api_secret:
-        //     image_base64:
-        // }).then(data=>{
-        //     console.log(data)
-        // })
+    distinguish(e){
+        axios({
+            method: 'post',
+            url: 'https://api-cn.faceplusplus.com/imagepp/v1/recognizetext',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: qs.stringify({
+                api_key:'T_ohwyZ4qPexYQGOM6Qpp3-8tRxums_U',
+                api_secret:'hlXd8o2G_e_Q6_1FlXvBt09dohPQ9zg-',
+                image_base64:this.selectRectMeta.base64Data
+            })
+        }).then(data=>{
+            console.log(data)
+        })
     }
 
     sendMsg(type, msg) {
