@@ -13,6 +13,7 @@
 
 - [electron官方文档](https://electronjs.org)
 - [electron-build官方文档（打包工具）](https://www.electron.build)
+- [如何实现基于Electron的截图识字App（一）](https://juejin.im/post/5ca0aba1e51d4533183660fd)
 
 ## 快速入门
 
