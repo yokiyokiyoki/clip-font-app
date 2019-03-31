@@ -83,6 +83,6 @@
       </dict>
     </dict>
     <key>AsarIntegrity</key>
-    <string>{"checksums":{"app.asar":"AYgbL2Eb+u+7/Q4hoWItElx+8cqDHfdkh2piLRgoB/mRuuh/8DyVIyHTC06p9FdEBsB7CrnqZPWIM4Ppj+y4ig==","electron.asar":"Hl8vFFLeLL+HOV3e73q/eMogL3OKWj33LMrjrX0by6sGVBUrGY9yGg1tjQoL1eDqUYs8WixNC+Pt5P8H86ppxQ=="}}</string>
+    <string>{"checksums":{"app.asar":"j7XVkUHe1cotlMopMOyYtTGchtV+Kn2WW63LxasSWvGAxIKY8MgAsJdSLdrY3Pu4Qkb05n4eST9y56agDhsVjw==","electron.asar":"Hl8vFFLeLL+HOV3e73q/eMogL3OKWj33LMrjrX0by6sGVBUrGY9yGg1tjQoL1eDqUYs8WixNC+Pt5P8H86ppxQ=="}}</string>
   </dict>
 </plist>
